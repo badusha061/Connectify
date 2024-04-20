@@ -3,6 +3,9 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+
+
+
 import os
 
 from datetime import timedelta
@@ -24,6 +27,7 @@ MIN_PASSWORD_LENGTH = 8
 # Application definition
 
 INSTALLED_APPS = [
+    "daphne",
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -34,7 +38,9 @@ INSTALLED_APPS = [
 
     #installed app
     'user_auth',
+    'chat',
     'rest_framework',
+    'channels',
     'rest_framework_simplejwt',
     'rest_framework_simplejwt.token_blacklist',
     "corsheaders",
@@ -99,7 +105,6 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'server.urls'
 
 TEMPLATES = [
     {
@@ -117,7 +122,19 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'server.wsgi.application'
+# WSGI_APPLICATION = 'server.wsgi.application'
+
+ROOT_URLCONF = 'server.urls'
+
+ASGI_APPLICATION = 'server.asgi.application'
+
+
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': "channels.layers.InMemoryChannelLayer"
+    }
+}
 
 
 # Database

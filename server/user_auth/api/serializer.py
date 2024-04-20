@@ -1,6 +1,7 @@
 from rest_framework.serializers import ModelSerializer
 from rest_framework  import serializers 
 from django.contrib.auth.models import User  
+from user_auth.models import Profile
 from django.conf import settings
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
@@ -59,3 +60,9 @@ class CustomerTokenObtainPairSerialzer(TokenObtainPairSerializer):
         token['is_active'] = user.is_active
         return token
     
+
+class UserProfileSerialzer(ModelSerializer):
+    user  = UserSerializer()
+    class Meta:
+        model = Profile
+        fields = ['user','image']

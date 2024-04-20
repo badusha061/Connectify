@@ -5,5 +5,7 @@ from rest_framework_simplejwt.views import (
 )
 urlpatterns = [
     path('token', CustomerTokenObtainPairView.as_view(), name='access-token'),
-    path('token/refersh', TokenRefreshView.as_view(), name='refersh-token')
+    path('token/refersh', TokenRefreshView.as_view(), name='refersh-token'),
+    path('profile/<int:userid>/', UserProfile.as_view(), name='userProfile')
 ]
+

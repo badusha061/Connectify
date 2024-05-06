@@ -4,6 +4,8 @@ from django.contrib.auth.models import User
 from user_auth.models import Profile
 from django.conf import settings
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+import re 
+
 
 
 class UserSerializer(ModelSerializer):
@@ -26,6 +28,9 @@ class UserSerializer(ModelSerializer):
             )
         }
     )
+    password_pattern = r"^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$"
+
+    
     
     class Meta:
         model = User
@@ -40,13 +45,25 @@ class UserSerializer(ModelSerializer):
     def validate(self , data):
         if data["password1"] != data["password2"]:
             raise serializers.ValidationError("passsword do not match")
+        
+        if not re.match(self.password_pattern, data["password1"]):
+            raise serializers.ValidationError("password Must be strong")
+        
+        if len(data["username"])  < 3:
+            raise serializers.ValidationError("Username must be 3 character")
+        
+        if len(data["username"]) > 20:
+            raise serializers.ValidationError("Username cannot be more than 20 character")
+
         return data
+    
     def create(self , validated_data):
         user = User(
             username = validated_data["username"],
         )
         user.set_password(validated_data["password1"])
         user.save()
+        Profile.objects.create(user = user)
         return user
 
 
@@ -65,4 +82,4 @@ class UserProfileSerialzer(ModelSerializer):
     user  = UserSerializer()
     class Meta:
         model = Profile
-        fields = ['user','image']
+        fields = ['id','user','image']

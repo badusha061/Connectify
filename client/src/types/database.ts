@@ -16,3 +16,14 @@ export interface UserData {
     user : User
     image : string | null
 }
+
+
+export interface JWTData{
+    user_id : number,
+    username : string,
+    refersh? : string,
+    access? : string
+}
+
+
+

@@ -7,7 +7,7 @@ urlpatterns = [
     path('token', CustomerTokenObtainPairView.as_view(), name='access-token'),
     path('token/refersh', TokenRefreshView.as_view(), name='refersh-token'),
     path('profile/<int:pk>/', UserProfile.as_view(), name='userProfile'),
-    path('user', UserGet.as_view(), name='get-all-user'),
+    path('all/<int:user_id>/', UserGet.as_view(), name='get-all-user'),
     path('test', Test.as_view(), name='test')
 ]
 

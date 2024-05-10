@@ -11,16 +11,16 @@ import {
 } from "@/components/ui/form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
-import { string, z } from "zod"
+import { z } from "zod"
 import axios from "axios"
 import Cookies from 'js-cookie';
 import Layouts from "@/Layouts/Layouts"
 import { jwtDecode } from "jwt-decode";
 import useUserStore from "@/app/Store"
-import {User} from '../types/database'
+import {User , JWTData} from '../types/database'
 import { passwordRegex } from "@/Regex/Regex"
 import SucessSweet from "@/custom/SucessSweet"
-
+import { Loader2 } from "lucide-react"
 
 
 const formSchema = z.object({
@@ -35,7 +35,7 @@ const formSchema = z.object({
             z.string()
             .refine(data => passwordRegex.test(data),{
               message:"Password Must be strong"  
-            })
+          })
 })
 
 
@@ -63,10 +63,10 @@ export  default function Login() {
           if(response.status === 200){
             Cookies.set('tokenRefresh', response.data.refresh, { expires: 7, secure: true });
             Cookies.set('tokenAccess', response.data.access, { expires: 7, secure: true });
-            const decodeData = jwtDecode(response.data.access)
+            const decodeData = jwtDecode<JWTData>(response.data.access)
             const user : User = {
-              id : decodeData.user_id,
-              username : decodeData.username
+              id : decodeData?.user_id,
+              username : decodeData?.username
             }
             addUser(user)
             const content  = 'Succefully Login'
@@ -120,12 +120,13 @@ export  default function Login() {
                 </FormItem>
               )}
             />
-            <Button type="submit">
-              {isSubmitting ? (
-                "Loading"
-              ):(
-                "Submit"
-              )}
+            <Button size={"customise"} type="submit">
+              {isSubmitting ? 
+              <Button disabled>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                   Please wait
+              </Button>
+              : "Submit"}
             </Button>
           </form>
         </Form>

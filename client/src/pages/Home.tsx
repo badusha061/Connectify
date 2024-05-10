@@ -1,5 +1,4 @@
 import Layouts from '@/Layouts/Layouts';
-import useUserStore from '@/app/Store';
 
 
 function Home() {

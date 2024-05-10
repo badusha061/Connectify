@@ -9,6 +9,9 @@ import Chat from './pages/Chat.tsx'
 import AIChatBoat from './pages/AIChatBoat.tsx'
 import UserProfile from './pages/UserProfile.tsx'
 
+
+
+
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route>

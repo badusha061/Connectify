@@ -28,19 +28,25 @@ class CustomerTokenObtainPairView(TokenObtainPairView):
 
 
 
-# @permission_classes(IsAuthenticated)
+
 class UserProfile(RetrieveUpdateAPIView):
     serializer_class = UserProfileSerialzer
     queryset = Profile.objects.all()
+    permission_classes = [IsAuthenticated]
     def get_object(self):
             user_intance = self.kwargs['pk']
             return Profile.objects.get(user = user_intance)
     
 
-# @permission_classes(IsAuthenticated)
+
 class UserGet(ListAPIView):
     serializer_class = UserProfileSerialzer
-    queryset = Profile.objects.all()
+    permission_classes = [IsAuthenticated]
+    def get_queryset(self):
+        print(self.kwargs['user_id'])
+        users = Profile.objects.all().exclude(user = self.kwargs['user_id']) 
+        return users
+   
 
 
 

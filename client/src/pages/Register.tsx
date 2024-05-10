@@ -16,6 +16,8 @@ import {z} from 'zod'
 import { passwordRegex  } from "@/Regex/Regex"
 import axios from "axios";
 import Layouts from "@/Layouts/Layouts"
+import { Loader2 } from "lucide-react"
+
 
 const SignUpSchema = z.object({
     username : z
@@ -141,12 +143,13 @@ export default function Register() {
           )}
         />
 
-        <Button type="submit">
-          {isSubmitting ? (
-            "isLoading"
-          ):(
-            "Submit"
-          )}
+        <Button size={"customise"} type="submit">
+          {isSubmitting ? 
+           <Button disabled>
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+               Please wait
+          </Button>
+          : "Submit" }
         </Button>
       </form>
     </Form>

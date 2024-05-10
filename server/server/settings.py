@@ -42,7 +42,6 @@ INSTALLED_APPS = [
     'rest_framework',
     'channels',
     'rest_framework_simplejwt',
-    'rest_framework_simplejwt.token_blacklist',
     "corsheaders",
     'chatboat'
 ]
@@ -55,13 +54,13 @@ REST_FRAMEWORK = {
 }
 
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=30),
+    "ACCESS_TOKEN_LIFETIME": timedelta(hours=3),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=90),
     "ROTATE_REFRESH_TOKENS": True,
     "BLACKLIST_AFTER_ROTATION": True,
     "UPDATE_LAST_LOGIN": False,
 
-    "ALGORITHM": "HS256",
+    "ALGORITHM": "HS256",   
     "VERIFYING_KEY": "",
     "AUDIENCE": None,
     "ISSUER": None,
@@ -195,5 +194,13 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CORS_ALLOW_ALL_ORIGINS = True
-
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5173"
+]
+CORS_ORIGIN_WHITELIST = [
+    "http://localhost:5173",
+    "http://localhost:8000"
+]
+CORS_ALLOW_CREDENTIALS = True
 
